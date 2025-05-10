@@ -27,6 +27,7 @@ public class RegisterSponsorshipTest {
 	
 	private static Database db=new Database();
 	private static SponsorshipAgreementsModel model = new SponsorshipAgreementsModel();
+	Map<String, String> data;
 	
 	@Before
 	public void setUp() 
@@ -39,13 +40,14 @@ public class RegisterSponsorshipTest {
 		} catch (ParseException e) {
 			throw new IllegalStateException("Error previous to testing when parsing date TEST_TODAY_DATE");
 		}
+		
+		data = new HashMap<>();
 	}
 	
 	@Test
 	public void TC01_Valid_1()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -94,7 +96,6 @@ public class RegisterSponsorshipTest {
 	public void TC02_Valid_2()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -143,7 +144,6 @@ public class RegisterSponsorshipTest {
 	public void TC03_ClosedActivity()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "1");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -167,7 +167,6 @@ public class RegisterSponsorshipTest {
 	public void TC04_UnexistantActivity()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "3");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -191,7 +190,6 @@ public class RegisterSponsorshipTest {
 	public void TC05_AlreadySponsoringContact()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "2");
 		data.put("idGBMember", "1");
@@ -215,7 +213,6 @@ public class RegisterSponsorshipTest {
 	public void TC06_UnexistantContact()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "3");
 		data.put("idGBMember", "1");
@@ -238,7 +235,6 @@ public class RegisterSponsorshipTest {
 	public void TC07_UnexistantGBMember()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "2");
@@ -261,7 +257,6 @@ public class RegisterSponsorshipTest {
 	public void TC08_FutureAgreementDate()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -284,7 +279,6 @@ public class RegisterSponsorshipTest {
 	public void TC09_AmountBelowLowestLevel()
 	{
 		// Preparing data
-		Map<String, String> data = new HashMap<>();
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
