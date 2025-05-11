@@ -26,6 +26,39 @@
 	</properties>
 
 	<dependencies>
+		<!-- JUnit 5 -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter</artifactId>
+		    <version>5.10.0</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- JUnit 4 -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.13.2</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- JUnit Vintage Engine to run JUnit 4 tests in JUnit 5 -->
+		<dependency>
+		    <groupId>org.junit.vintage</groupId>
+		    <artifactId>junit-vintage-engine</artifactId>
+		    <version>5.10.0</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- pruebas junit con parametros -->
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Other -->
 		<dependency>
     		<groupId>com.sun.mail</groupId>
     		<artifactId>jakarta.mail</artifactId>
@@ -37,19 +70,7 @@
  			<version>7.2.5</version>
   			<type>pom</type>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- pruebas junit con parametros -->
-		<dependency>
-			<groupId>pl.pragmatists</groupId>
-			<artifactId>JUnitParams</artifactId>
-			<version>1.1.1</version>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- lombok, para generar automaticamente getters y setters -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

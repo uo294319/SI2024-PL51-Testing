@@ -156,6 +156,27 @@ public class SponsorshipAgreementsModel {
 
     // INSERTIONS
 
+    /**
+     * Inserts a new sponsorship agreement into the database with the status set to 'signed'.
+     * <p>
+     * This method performs several semantic validations before executing the insert:
+     * <ul>
+     *   <li>Checks that the provided {@code idSponsorContact}, {@code idGBMember}, and {@code idActivity}
+     *       exist in their respective tables.</li>
+     *   <li>Validates that the {@code amount} is a positive number.</li>
+     *   <li>Ensures the {@code date} is not in the future.</li>
+     *   <li>Verifies that the provided combination of {@code idSponsorContact} and {@code idActivity}
+     *       does not already correspond to an existing (old) sponsorship agreement.</li>
+     * </ul>
+     *
+     * @param idSponsorContact the identifier of the sponsor contact; must exist in the SponsorContacts table
+     * @param idGBMember       the identifier of the governing board member; must exist in the GBMembers table
+     * @param idActivity       the identifier of the activity; must exist in the Activities table
+     * @param amount           the amount of the sponsorship; must be a positive number
+     * @param date             the date the agreement was signed; must not be in the future
+     *
+     * @throws ApplicationException if the sponsorship agreement already exists or validation fails
+     */
     public void insertNewSponsorshipAgreement(String idSponsorContact, String idGBMember, String idActivity, String amount, String date) {
 		SemanticValidations.validateIdForTable(idSponsorContact, "SponsorContacts",
 				"ERROR. Tried to insert a Sponsorship agreement with an unexisting idSponsorContact.");

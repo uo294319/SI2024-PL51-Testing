@@ -272,5 +272,9 @@ public class SwingMain {
 	public JFrame getFrame() { return this.frame; }
 	
 	public static Date getTodayDate() {  return SwingMain.today; }
+	public static void setTodayDate(Date today)
+	{
+		SwingMain.today = today;
+	}
 	
 }

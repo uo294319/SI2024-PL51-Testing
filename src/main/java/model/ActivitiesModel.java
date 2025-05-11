@@ -143,6 +143,14 @@ public class ActivitiesModel {
 		db.executeUpdate(sql, name, edition, dateStart, dateEnd, place);
 	}
     
+    
+    /**
+     * Closes the specified activity.
+     * 
+     * @param idActivity the identifier of the activity to be closed; must exist in the {@code Activities} table
+     *
+     * @throws ApplicationException if the {@code idActivity} does not exist
+     */
     public void closeActivityById(String idActivity) {
 		SemanticValidations.validateIdForTable(idActivity, "Activities", "ERROR. Provided idActivity for closeActivityById does not exist.");
 		
