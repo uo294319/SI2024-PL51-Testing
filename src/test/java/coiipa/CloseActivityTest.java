@@ -10,9 +10,9 @@ import util.Database;
  * Testing for business process "Consult Activity Status".
  * Done with {@code JUnit 5}
  */
-public class ConsultActivityStatusTest {
+public class CloseActivityTest {
 	
-	private static final String TEST_DB_PATH = "src/test/resources/ConsultStatusActivityTestDB.sql";
+	private static final String TEST_DB_PATH = "src/test/resources/CloseActivityTestDB.sql";
 	
 	private static Database db=new Database();
 	
