@@ -33,6 +33,7 @@ public class RegisterSponsorshipTest
 	public static void setUpBeforeClass()
 	{
 		try {
+			// Set the test today's date for all tests.
 			SwingMain.setTodayDate(new SimpleDateFormat("yyyy-MM-dd").parse(TEST_TODAY_DATE));
 		} catch (ParseException e) {
 			throw new IllegalStateException("Error previous to testing when parsing date TEST_TODAY_DATE");
@@ -42,16 +43,18 @@ public class RegisterSponsorshipTest
 	@Before
 	public void setUp() 
 	{
+		// Initialize the database and load the test script.
 		db.createDatabase(false);
 		db.executeScript(TEST_DB_PATH);
 		
+		// Reset the dictionary (map) with data for each test case.
 		data = new HashMap<>();
 	}
 	
 	@Test
 	public void TC01_Valid_1()
 	{
-		// Preparing data
+		// Test Case TC01 data: Valid sponsorship agreement with future date
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -71,7 +74,7 @@ public class RegisterSponsorshipTest
 			fail("Exception during insertNewSponsorshipAgreement. Msg = " + e.getMessage());
 		}
 		
-		// Check that it is actually inserted in the DB.
+		// Verify the data is correctly inserted into the database
 		String sql = "SELECT idSponsorContact, idGBMember, idActivity, amount, date "
 				+ "FROM SponsorshipAgreements WHERE idSponsorContact = ? AND idGBMember = ? "
 				+ "AND idActivity = ? AND amount = ? AND date = ?";
@@ -99,7 +102,7 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC02_Valid_2()
 	{
-		// Preparing data
+		// Test Case TC02 data: Valid sponsorship agreement with today's date
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -119,7 +122,7 @@ public class RegisterSponsorshipTest
 			fail("Exception during insertNewSponsorshipAgreement. Msg = " + e.getMessage());
 		}
 		
-		// Check that it is actually inserted in the DB.
+		// Verify the data is correctly inserted into the database
 		String sql = "SELECT idSponsorContact, idGBMember, idActivity, amount, date "
 				+ "FROM SponsorshipAgreements WHERE idSponsorContact = ? AND idGBMember = ? "
 				+ "AND idActivity = ? AND amount = ? AND date = ?";
@@ -133,7 +136,7 @@ public class RegisterSponsorshipTest
 			data.get("date")
 		);
 		
-		if (result == null) throw new IllegalStateException("Error obtaining data from the DB in TC01.");
+		if (result == null) throw new IllegalStateException("Error obtaining data from the DB in TC02.");
 	    assertEquals("Should return exactly one row", 1, result.size());
 	    
 	    // Check the values match the expected
@@ -147,7 +150,7 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC03_ClosedActivity()
 	{
-		// Preparing data
+		// Test Case TC03 data: Attempt to register sponsorship for a closed activity
 		data.put("idActivity", "1");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
@@ -155,6 +158,7 @@ public class RegisterSponsorshipTest
 		data.put("amount", "3000.00");
 		
 		
+		// Expect ApplicationException due to closed activity
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -170,14 +174,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC04_UnexistantActivity()
 	{
-		// Preparing data
+		// Test Case TC04 data: Attempt to register sponsorship for an unexisting activity
 		data.put("idActivity", "3");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
 		data.put("date", "2024-01-01");
 		data.put("amount", "3000.00");
 		
-		
+		// Expect ApplicationException due to unexisting activity
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -193,14 +197,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC05_AlreadySponsoringContact()
 	{
-		// Preparing data
+		// Test Case TC05 data: Attempt to register sponsorship for an already sponsoring contact
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "2");
 		data.put("idGBMember", "1");
 		data.put("date", "2024-01-01");
 		data.put("amount", "3000.00");
 		
-		
+		// Expect ApplicationException due to already sponsoring contact
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -216,13 +220,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC06_UnexistantContact()
 	{
-		// Preparing data
+		// Test Case TC06 data: Attempt to register sponsorship for an unexisting contact
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "3");
 		data.put("idGBMember", "1");
 		data.put("date", "2024-01-01");
 		data.put("amount", "3000.00");
 		
+		// Expect ApplicationException due to unexisting contact
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -238,13 +243,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC07_UnexistantGBMember()
 	{
-		// Preparing data
+		// Test Case TC07 data: Attempt to register sponsorship for an unexisting GB member
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "2");
 		data.put("date", "2024-01-01");
 		data.put("amount", "3000.00");
 		
+		// Expect ApplicationException due to unexisting GB member
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -260,13 +266,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC08_FutureAgreementDate()
 	{
-		// Preparing data
+		// Test Case TC08 data: Attempt to register sponsorship with a future date
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
 		data.put("date", "2024-01-11");
 		data.put("amount", "3000.00");
 		
+		// Expect ApplicationException due to future date
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -282,13 +289,14 @@ public class RegisterSponsorshipTest
 	@Test
 	public void TC09_AmountBelowLowestLevel()
 	{
-		// Preparing data
+		// Test Case TC09 data: Attempt to register sponsorship with an amount below the lowest level
 		data.put("idActivity", "2");
 		data.put("idSponsorContact", "1");
 		data.put("idGBMember", "1");
 		data.put("date", "2024-01-01");
 		data.put("amount", "2000.00");
 		
+		// Expect ApplicationException due to amount below the lowest level
 		assertThrows(
 			ApplicationException.class,
 			() -> model.insertNewSponsorshipAgreement(
@@ -304,6 +312,7 @@ public class RegisterSponsorshipTest
 	@AfterClass
 	public static void tearDownAfterClass()
 	{
+		// Reset the database after all tests
 		db.createDatabase(false);
 		db.loadDatabase();
 	}
