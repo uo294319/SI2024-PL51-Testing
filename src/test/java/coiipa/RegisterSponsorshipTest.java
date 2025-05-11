@@ -2,7 +2,6 @@ package coiipa;
 
 import org.junit.*;
 
-
 import static org.junit.Assert.*;
 
 import java.text.ParseException;
@@ -20,7 +19,8 @@ import util.ApplicationException;
  * Testing for business process "Register Sponsorship".
  * Done with {@code JUnit 4}
  */
-public class RegisterSponsorshipTest {
+public class RegisterSponsorshipTest
+{
 	
 	private static final String TEST_DB_PATH = "src/test/resources/RegisterSponsorshipTestDB.sql";
 	private static final String TEST_TODAY_DATE = "2024-01-10";
@@ -29,17 +29,21 @@ public class RegisterSponsorshipTest {
 	private static SponsorshipAgreementsModel model = new SponsorshipAgreementsModel();
 	Map<String, String> data;
 	
-	@Before
-	public void setUp() 
+	@BeforeClass
+	public static void setUpBeforeClass()
 	{
-		db.createDatabase(false);
-		db.executeScript(TEST_DB_PATH);
-		
 		try {
 			SwingMain.setTodayDate(new SimpleDateFormat("yyyy-MM-dd").parse(TEST_TODAY_DATE));
 		} catch (ParseException e) {
 			throw new IllegalStateException("Error previous to testing when parsing date TEST_TODAY_DATE");
 		}
+	}
+	
+	@Before
+	public void setUp() 
+	{
+		db.createDatabase(false);
+		db.executeScript(TEST_DB_PATH);
 		
 		data = new HashMap<>();
 	}
@@ -295,5 +299,12 @@ public class RegisterSponsorshipTest {
 				data.get("date")
 			)
 		);
+	}
+	
+	@AfterClass
+	public static void tearDownAfterClass()
+	{
+		db.createDatabase(false);
+		db.loadDatabase();
 	}
 }
